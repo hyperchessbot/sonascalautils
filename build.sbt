@@ -1,20 +1,33 @@
-import Dependencies._
+ThisBuild / organization := "io.github.hyperchessbot"
+ThisBuild / organizationName := "hyperchessbot"
+ThisBuild / organizationHomepage := Some(url("https://github.com/hyperchessbot/scalautils/"))
 
-ThisBuild / scalaVersion     := "2.13.3"
-ThisBuild / version          := "0.1.0-SNAPSHOT"
-ThisBuild / organization     := "com.example"
-ThisBuild / organizationName := "example"
-
-lazy val root = (project in file("."))
-  .settings(
-    name := "scalaseed",
-    libraryDependencies += scalaTest % Test
+ThisBuild / scmInfo := Some(
+  ScmInfo(
+    url("https://github.com/hyperchessbot/scalautils.git"),
+    "scm:git@github.com/hyperchessbot/scalautils.git"
   )
+)
+ThisBuild / developers := List(
+  Developer(
+    id    = "hyperbot",
+    name  = "Hyper Bot",
+    email = "hyperchessbot@gmail.com",
+    url   = url("https://github.com/hyperchessbot/scalautils")
+  )
+)
 
-// See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
+ThisBuild / description := "Scala utils."
+ThisBuild / licenses := List("MIT" -> new URL("https://opensource.org/licenses/MIT"))
+ThisBuild / homepage := Some(url("https://github.com/hyperchessbot/scalautils"))
 
-credentials += Credentials(Path.userHome / ".sbt" / ".credentials")
+// Remove all additional repository other than Maven Central from POM
+ThisBuild / pomIncludeRepository := { _ => false }
+ThisBuild / publishTo := {
+  val nexus = "https://oss.sonatype.org/"
+  if (isSnapshot.value) Some("snapshots" at nexus + "content/repositories/snapshots")
+  else Some("releases" at nexus + "service/local/staging/deploy/maven2")
+}
+ThisBuild / publishMavenStyle := true
 
-resolvers += "Artifactory" at "https://hyperbot.jfrog.io/artifactory/hyperbot/"
-
-libraryDependencies += "com.example" % "scalautils_2.13" % "0.1.0-SNAPSHOT"
+credentials += Credentials(Path.userHome / ".sbt" / "sonatype_credentials")
