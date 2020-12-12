@@ -1,0 +1,3 @@
+# scalaseed
+
+Scala seed.
